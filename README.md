@@ -4,4 +4,4 @@ Everything is divided by the ML Sphere sections. Further info placed in each sec
 
 
 # Computer Vision
-Could be found [here](../CV/)
+Could be found [here](./CV/)
