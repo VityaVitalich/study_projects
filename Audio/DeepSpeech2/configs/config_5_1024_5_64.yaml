@@ -1,0 +1,11 @@
+bs: 64
+cnn_n_layers: 5
+dropout: 0.1
+epochs: 150
+model_type: BiRNN
+n_feats: 128
+name: config_5_1024_5_64
+parallel: true
+rnn_dim: 1024
+rnn_n_layers: 5
+stride: 2

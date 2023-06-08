@@ -13,13 +13,13 @@ class BaseLoss:
         """
         Get loss function value at w.
         """
-        raise NotImplementedError('Func oracle is not implemented.')
+        raise NotImplementedError("Func oracle is not implemented.")
 
     def grad(self, X, y, w):
         """
         Get loss function gradient value at w.
         """
-        raise NotImplementedError('Grad oracle is not implemented.')
+        raise NotImplementedError("Grad oracle is not implemented.")
 
 
 class BinaryLogisticLoss(BaseLoss):
@@ -51,8 +51,12 @@ class BinaryLogisticLoss(BaseLoss):
         -------
         : float
         """
-        ans_1 = 1/len(y) * np.sum(logsumexp(np.vstack([-y*(X@w), np.zeros(len(y))]), axis=0))
-        reg = self.l2_coef * (np.linalg.norm(w[:])**2 - w[0]**2)
+        ans_1 = (
+            1
+            / len(y)
+            * np.sum(logsumexp(np.vstack([-y * (X @ w), np.zeros(len(y))]), axis=0))
+        )
+        reg = self.l2_coef * (np.linalg.norm(w[:]) ** 2 - w[0] ** 2)
         return ans_1 + reg
 
     def grad(self, X, y, w):
@@ -69,7 +73,7 @@ class BinaryLogisticLoss(BaseLoss):
         -------
         : 1d numpy.ndarray
         """
-        grad =  X.T.dot(expit(-y*(X@w)) * -y)/len(y)
+        grad = X.T.dot(expit(-y * (X @ w)) * -y) / len(y)
         grad[1:] = grad[1:] + 2 * self.l2_coef * w[1:]
         return grad
 

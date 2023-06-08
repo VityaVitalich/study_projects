@@ -15,8 +15,7 @@ def knn_cross_val_score(X, y, k_list, scoring, cv=None, **kwargs):
         scorer = accuracy_score
     else:
         raise ValueError("Unknown scoring metric", scoring)
-        
-        
+
     if cv is None:
         cv = KFold(n_splits=5)
     elif not isinstance(cv, BaseCrossValidator):
@@ -34,7 +33,7 @@ def knn_cross_val_score(X, y, k_list, scoring, cv=None, **kwargs):
 
         max_dist, max_ind = cl.kneighbors(x_test, return_distance=True)
         for k in k_list:
-            if (k == maxk):
+            if k == maxk:
                 y_pred = cl._predict_precomputed(max_ind, max_dist)
             else:
                 y_pred = cl._predict_precomputed(max_ind[:, :k], max_dist[:, :k])

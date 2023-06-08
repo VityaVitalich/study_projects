@@ -10,7 +10,7 @@ class LinearModel:
         loss_function,
         batch_size=None,
         step_alpha=1,
-        step_beta=0, 
+        step_beta=0,
         tolerance=1e-5,
         max_iter=1000,
         random_seed=153,
@@ -37,7 +37,6 @@ class LinearModel:
         self.tolerance = tolerance
         self.max_iter = max_iter
         np.random.seed(random_seed)
-
 
     def fit(self, X, y, w_0=None, trace=False, X_val=None, y_val=None):
         """
@@ -68,30 +67,30 @@ class LinearModel:
         self.M = X.shape[1]
         self.N = X.shape[0]
         if w_0 is None:
-            self.w = np.random.normal(0, .01, self.M)
+            self.w = np.random.normal(0, 0.01, self.M)
         else:
             self.w = w_0
-            
+
         if trace:
             history = defaultdict()
-            history['func'] = []
-            history['time'] = []
+            history["func"] = []
+            history["time"] = []
             if (X_val is not None) and (y_val is not None):
-                history['func_val'] = []
-                
-                f_val = self.loss_function.func(X_val,y_val,self.w)
-                history['func_val'].append(f_val)
-            
-            history['time'].append(0)
-            f = self.loss_function.func(X,y,self.w)
-            history['func'].append(f)
-            
+                history["func_val"] = []
+
+                f_val = self.loss_function.func(X_val, y_val, self.w)
+                history["func_val"].append(f_val)
+
+            history["time"].append(0)
+            f = self.loss_function.func(X, y, self.w)
+            history["func"].append(f)
+
         for k in range(self.max_iter):
             start = time.time()
-            n_k = self.step_alpha / (k+1)**self.step_beta
+            n_k = self.step_alpha / (k + 1) ** self.step_beta
             w_t = self.w
-            
-            if (self.batch_size is not None):
+
+            if self.batch_size is not None:
                 idx = np.arange(self.N)
                 np.random.shuffle(idx)
                 batches = np.ceil(self.N / self.batch_size)
@@ -99,32 +98,30 @@ class LinearModel:
                 for batch_idx in idx_ls:
                     X_batched = X[batch_idx]
                     y_batched = y[batch_idx]
-                    grad = self.loss_function.grad(X_batched,y_batched,self.w)    
+                    grad = self.loss_function.grad(X_batched, y_batched, self.w)
                     self.w = self.w - n_k * grad
-            else:          
+            else:
                 X_batched = X
                 y_batched = y
-                grad = self.loss_function.grad(X_batched,y_batched,self.w)    
+                grad = self.loss_function.grad(X_batched, y_batched, self.w)
                 self.w = self.w - n_k * grad
-                
-                
+
             end = time.time()
             stop_criterion = np.linalg.norm(self.w - w_t)
-            
+
             if trace:
-                time_spent = end-start
-                history['time'].append(time_spent)
-                functional_train = self.loss_function.func(X,y,self.w)
-                history['func'].append(functional_train)
-                
-                
+                time_spent = end - start
+                history["time"].append(time_spent)
+                functional_train = self.loss_function.func(X, y, self.w)
+                history["func"].append(functional_train)
+
                 if (X_val is not None) and (y_val is not None):
-                    functional_val = self.loss_function.func(X_val,y_val,self.w)
-                    history['func_val'].append(functional_val)
-            
-            if (stop_criterion <= self.tolerance):
+                    functional_val = self.loss_function.func(X_val, y_val, self.w)
+                    history["func_val"].append(functional_val)
+
+            if stop_criterion <= self.tolerance:
                 break
-                
+
         if trace:
             return history
 
@@ -143,8 +140,8 @@ class LinearModel:
         : numpy.ndarray
             answers on a test set
         """
-           
-        return (np.sign((X @ self.w) - threshold)) 
+
+        return np.sign((X @ self.w) - threshold)
 
     def get_optimal_threshold(self, X, y):
         """
@@ -164,7 +161,7 @@ class LinearModel:
             Chosen threshold.
         """
         if self.loss_function.is_multiclass_task:
-            raise TypeError('optimal threhold procedure is only for binary task')
+            raise TypeError("optimal threhold procedure is only for binary task")
 
         weights = self.get_weights()
         scores = X.dot(weights)
@@ -216,8 +213,8 @@ class LinearModel:
         -------
         : float
         """
-        return self.loss_function.func(X,y, self.w)
-    
+        return self.loss_function.func(X, y, self.w)
+
     def compute_balanced_accuracy(self, true_y, pred_y):
         """
         Get balaced accuracy value
