@@ -17,6 +17,16 @@ Everything connected with generation of images.
 
 Could be found [here](./generative_models/)
 
+## Reinforcement Learning
+Everything connected with RL
+
+Could be found [here](./RL/)
+
+## DL in Audio
+Everything connected with DL in Audio systems (ASR, TTS)
+
+Could be found [here](./Audio/)
+
 ## Recommendations
 Everything connected with recommendation systems, including classic ML and DL
 
@@ -26,6 +36,11 @@ Could be found [here](./Recommender_Systems/)
 Everything connected with convex optimization algorithms: analytical solution, code realisation, experiments
 
 Could be found [here](./Convex_Opt/)
+
+## Numerical Linear Algebra
+Everything connected with linear algebra and numerical things around
+
+Could be found [here](./NLA/)
 
 ## Hachathons
 Everything was done through different hackathons.
